@@ -1,3 +1,9 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <errno.h>
+
 /* Private global variables */
 static char *mem_heap; /* Points to first byte of heap */
 static char *mem_brk;  /* Points to last byte of heap plus 1 */
