@@ -111,3 +111,31 @@ static void *coalesce(void *bp) {
 
        return bp;
 }
+
+void *mm_malloc(size_t size) {
+	size_t asize;
+	size_t extendsize;
+
+	if (size == 0) {
+		return NULL;
+	}
+
+	if (size <= DSIZE) {
+		asize = DSIZE << 1;
+	} else {
+		asize = DSIZE * ((size + (DSIZE) + (DSIZE - 1) / DSIZE);
+	}
+
+	if ((bp = find_fit(asize)) != NULL) {
+		place(bp, asize);
+		return bp;
+	}
+
+	extendsize = MAX(asize, CHUNKSIZE);
+	if ((bp = extend_heap(extendsize / WSIZE)) == NULL) {
+		return NULL;
+	}
+	place(bp, asize);
+	return bp;
+}
+
