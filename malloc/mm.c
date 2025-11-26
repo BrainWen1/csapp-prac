@@ -3,6 +3,9 @@
 #include <string.h>
 #include <errno.h>
 
+/* External heap model helpers */
+void *mem_sbrk(int incr);
+
 /* Basic constants and macros */
 #define WSIZE 	   4	  /**/
 #define DSIZE 	   8	  /**/
@@ -29,6 +32,14 @@
 #define NEXT_BLKP(bp) ((char *)(bp) + GET_SIZE(((char *)(bp) - WSIZE)))
 #define PREV_BLKP(bp) ((char *)(bp) - GET_SIZE(((char *)(bp) - DSIZE)))
 
+/* Forward declarations for helper routines */
+static void *extend_heap(size_t words);
+static void *coalesce(void *bp);
+static void *find_fit(size_t asize);
+static void place(void *bp, size_t asize);
+
+/* Global pointer to first block */
+static char *heap_listp = NULL;
 
 int mm_init(void) {
 	/* Create the initial empty heap */
@@ -68,7 +79,10 @@ static void *extend_heap(size_t words) {
 	return coalesce(bp);
 }
 
-void mm_free(void *bp) { 
+void mm_free(void *bp) {
+	if (bp == NULL) {
+		return;
+	}
 	size_t size = GET_SIZE(HDRP(bp));
 	
 	PUT(HDRP(bp), PACK(size, 0)); 
@@ -77,53 +91,54 @@ void mm_free(void *bp) {
 }
 
 static void *coalesce(void *bp) {
-       size_t prev_alloc = GET_ALLOC(FTRP(PREV_BLKP(bp)));
-       size_t next_alloc = GET_ALLOC(HDRP(NEXT_BLKP(bp)));
-       size_t size = GET_SIZE(HDRP(bp));
-       
-       /* Case 1 */
-       if (prev_alloc && next_alloc) {
-	       return bp;
-       }
-       
-       /* Case 2 */
-       else if (prev_alloc && !next_alloc) {
-	       size += GET_SIZE(HDRP(NEXT_BLKP(bp)));
-	       PUT(HDRP(bp), PACK(size, 0));
-	       PUT(FTRP(bp), PACK(size,0));
-       }
-       
-       /* Case 3 */
-       else if (!prev_alloc && next_alloc) {
-	       size += GET_SIZE(HDRP(PREV_BLKP(bp)));
-	       PUT(FTRP(bp), PACK(size, 0));
-	       PUT(HDRP(PREV_BLKP(bp)), PACK(size, 0));
-	       bp = PREV_BLKP(bp);
-       }
-       
-       /* Case 4 */
-       else {
-	       size += GET_SIZE(HDRP(PREV_BLKP(bp))) + GET_SIZE(FTRP(NEXT_BLKP(bp)));
-	       PUT(HDRP(PREV_BLKP(bp)), PACK(size, 0));
-	       PUT(FTRP(NEXT_BLKP(bp)), PACK(size, 0));
-	       bp = PREV_BLKP(bp);
-       }
+	size_t prev_alloc = GET_ALLOC(FTRP(PREV_BLKP(bp)));
+	size_t next_alloc = GET_ALLOC(HDRP(NEXT_BLKP(bp)));
+	size_t size = GET_SIZE(HDRP(bp));
 
-       return bp;
+	/* Case 1 */
+	if (prev_alloc && next_alloc) {
+		return bp;
+	}
+
+	/* Case 2 */
+	else if (prev_alloc && !next_alloc) {
+		size += GET_SIZE(HDRP(NEXT_BLKP(bp)));
+		PUT(HDRP(bp), PACK(size, 0));
+		PUT(FTRP(bp), PACK(size, 0));
+	}
+
+	/* Case 3 */
+	else if (!prev_alloc && next_alloc) {
+		size += GET_SIZE(HDRP(PREV_BLKP(bp)));
+		PUT(FTRP(bp), PACK(size, 0));
+		PUT(HDRP(PREV_BLKP(bp)), PACK(size, 0));
+		bp = PREV_BLKP(bp);
+	}
+
+	/* Case 4 */
+	else {
+		size += GET_SIZE(HDRP(PREV_BLKP(bp))) + GET_SIZE(HDRP(NEXT_BLKP(bp)));
+		PUT(HDRP(PREV_BLKP(bp)), PACK(size, 0));
+		PUT(FTRP(NEXT_BLKP(bp)), PACK(size, 0));
+		bp = PREV_BLKP(bp);
+	}
+
+	return bp;
 }
 
 void *mm_malloc(size_t size) {
-	size_t asize;
-	size_t extendsize;
+	size_t asize;      /* Adjusted block size */
+	size_t extendsize; /* Amount to extend heap if no fit */
+	void *bp;
 
 	if (size == 0) {
 		return NULL;
 	}
 
 	if (size <= DSIZE) {
-		asize = DSIZE << 1;
+		asize = DSIZE << 1; /* Minimal block size with header/footer */
 	} else {
-		asize = DSIZE * ((size + (DSIZE) + (DSIZE - 1) / DSIZE);
+		asize = DSIZE * ((size + DSIZE + (DSIZE - 1)) / DSIZE);
 	}
 
 	if ((bp = find_fit(asize)) != NULL) {
@@ -137,5 +152,31 @@ void *mm_malloc(size_t size) {
 	}
 	place(bp, asize);
 	return bp;
+}
+
+static void *find_fit(size_t asize) {
+	void *bp;
+
+	for (bp = heap_listp; GET_SIZE(HDRP(bp)) > 0; bp = NEXT_BLKP(bp)) {
+		if (!GET_ALLOC(HDRP(bp)) && (asize <= GET_SIZE(HDRP(bp)))) {
+			return bp;
+		}
+	}
+	return NULL; /* No fit found */
+}
+
+static void place(void *bp, size_t asize) {
+	size_t csize = GET_SIZE(HDRP(bp));
+
+	if ((csize - asize) >= (2 * DSIZE)) {
+		PUT(HDRP(bp), PACK(asize, 1));
+		PUT(FTRP(bp), PACK(asize, 1));
+		bp = NEXT_BLKP(bp);
+		PUT(HDRP(bp), PACK(csize - asize, 0));
+		PUT(FTRP(bp), PACK(csize - asize, 0));
+	} else {
+		PUT(HDRP(bp), PACK(csize, 1));
+		PUT(FTRP(bp), PACK(csize, 1));
+	}
 }
 
