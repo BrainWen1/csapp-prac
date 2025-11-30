@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8" />
+	<title>Tiny Web Server</title>
+	<style>
+		body {
+			font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+			margin: 0;
+			padding: 2rem;
+			background: #f5f7fb;
+			color: #1f2a44;
+		}
+		h1 {
+			margin-top: 0;
+		}
+		section {
+			background: #fff;
+			border-radius: 12px;
+			box-shadow: 0 12px 30px rgba(31, 42, 68, 0.1);
+			padding: 2rem;
+			max-width: 720px;
+		}
+		code {
+			background: #eef1f8;
+			padding: 0.15rem 0.35rem;
+			border-radius: 6px;
+			font-size: 0.95rem;
+		}
+		.footer {
+			margin-top: 2rem;
+			font-size: 0.9rem;
+			color: #5a6787;
+		}
+	</style>
+</head>
+<body>
+	<section>
+		<h1>欢迎来到 Tiny Web Server 👋</h1>
+		<p>这是 CS:APP 书中 <em>Tiny</em> 服务器提供的示例主页。你可以通过浏览器或 <code>curl</code> 访问它：</p>
+		<pre><code>curl http://192.168.12.143:8080/home.html</code></pre>
+		<p>要扩展内容，可以：</p>
+		<ul>
+			<li>在仓库根目录添加更多静态文件（HTML、CSS、图片等）。</li>
+			<li>在 <code>cgi-bin/</code> 下放置可执行 CGI 程序，Tiny 会为带 <code>cgi-bin</code> 的 URI 运行它们。</li>
+			<li>修改 <code>tiny.c</code> 的日志、错误处理或缓存策略，体验服务器功能。</li>
+		</ul>
+	</section>
+	<p class="footer">Happy hacking with Tiny 🎯</p>
+</body>
+</html>

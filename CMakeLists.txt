@@ -18,6 +18,8 @@ add_compile_definitions(
 	_POSIX_C_SOURCE=200809L
 )
 
+add_compile_options(-Wno-format-overflow)
+
 set(CSAPP_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(CSAPP_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(MALLOC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/malloc)
@@ -49,12 +51,15 @@ target_include_directories(csapp_malloc
 option(BUILD_NETP_EXAMPLES "Build the network programming example programs" ON)
 
 if(BUILD_NETP_EXAMPLES)
-	add_executable(hostinfo netp/hostinfo.c)
-	target_link_libraries(hostinfo PRIVATE csapp)
+	# add_executable(hostinfo netp/hostinfo.c)
+	# target_link_libraries(hostinfo PRIVATE csapp)
 
-	add_executable(echoclient netp/echoclient.c)
-	target_link_libraries(echoclient PRIVATE csapp)
+	# add_executable(echoclient netp/echoclient.c)
+	# target_link_libraries(echoclient PRIVATE csapp)
 
-	add_executable(echoserveri netp/echoserveri.c)
-	target_link_libraries(echoserveri PRIVATE csapp)
+	# add_executable(echoserveri netp/echoserveri.c)
+	# target_link_libraries(echoserveri PRIVATE csapp)
+
+	add_executable(tiny netp/tiny/tiny.c)
+	target_link_libraries(tiny PRIVATE csapp)
 endif()
