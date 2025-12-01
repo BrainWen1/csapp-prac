@@ -60,6 +60,12 @@ if(BUILD_NETP_EXAMPLES)
 	# add_executable(echoserveri netp/echoserveri.c)
 	# target_link_libraries(echoserveri PRIVATE csapp)
 
-	add_executable(tiny netp/tiny/tiny.c)
-	target_link_libraries(tiny PRIVATE csapp)
+	# add_executable(tiny netp/tiny/tiny.c)
+	# target_link_libraries(tiny PRIVATE csapp)
+
+	add_executable(echoserverp ./conc/echoserverp.c)
+	target_link_libraries(echoserverp PRIVATE csapp)
+
+	add_executable(select ./conc/select.c)
+	target_link_libraries(select PRIVATE csapp)
 endif()
