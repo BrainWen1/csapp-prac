@@ -1,5 +1,6 @@
 /* 
  * echoserveri.c - An iterative echo server 
+ * HOW TO USE: ./echoserveri <port-number>
  */ 
 /* $begin echoserverimain */
 #include "csapp.h"
@@ -36,8 +37,6 @@ int main(int argc, char **argv)  {
  * echo - read and echo text lines until client closes connection
  */
 /* $begin echo */
-#include "csapp.h"
-
 void echo(int connfd) 
 {
     size_t n; 

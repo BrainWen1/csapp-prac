@@ -1,5 +1,6 @@
 /*
  * echoclient.c - An echo client
+ * HOW TO USE: ./echoclient <IP> <port>
  */
 /* $begin echoclientmain */
 #include "csapp.h"
