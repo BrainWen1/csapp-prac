@@ -2,8 +2,7 @@
  * Protocols: TCP
  * Usage: Concurrently handle input from stdin and a listening socket
  * HOW TO USE: ./select <port-number>
- * HOW TO TEST: telnet <host> <port-number>
- *             ./echoclient <host> <port-number>
+ * HOW TO TEST: echoclient telnet
  */
 
 /* $begin select */

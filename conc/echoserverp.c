@@ -2,8 +2,7 @@
  * echoserverp.c - A concurrent echo server based on processes
  * Protocol: TCP
  * HOW TO USE: ./echoserverp <port-number>
- * HOW TO TEST: ./echoclient <host> <port-number>
- *              telnet <host> <port-number> 
+ * HOW TO TEST: echoclient telnet
  */
 /* $begin echoserverpmain */
 #include "csapp.h"

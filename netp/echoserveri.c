@@ -2,8 +2,7 @@
  * echoserveri.c - An iterative echo server
  * Protocol: TCP
  * HOW TO USE: ./echoserveri <port-number>
- * HOW TO TEST: telnet <host> <port-number>
- *             ./echoclient <host> <port-number>
+ * HOW TO TEST: echoclient telnet
  */ 
 /* $begin echoserverimain */
 #include "csapp.h"

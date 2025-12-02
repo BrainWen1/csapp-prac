@@ -1,7 +1,10 @@
 /*
  * echoclient.c - An echo client
- * Protocol: TCP
- * HOW TO USE: ./echoclient <IP> <port>
+ * Protocol: TCP / HTTP
+ *           TCP: For establishing a reliable connection between client and server
+ *           Optionsally, HTTP: For transferring data between client and server
+ *                              which uses HTTP to format the data being sent
+ * HOW TO USE: ./echoclient <host> <port-number>
  */
 /* $begin echoclientmain */
 #include "csapp.h"

@@ -1,7 +1,9 @@
 /*
  * adder.c - a minimal CGI program that adds two numbers together
  * For Tiny Web Server
- * Protocol: HTTP/1.0
+ * Protocol: HTTP/1.0 // TCP
+ *           HTTP: For transferring data between client and server
+ *           TCP: For establishing a reliable connection between client and server
  */
 /* $begin adder */
 #include "csapp.h"

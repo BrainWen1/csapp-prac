@@ -2,6 +2,12 @@
 /*
  * tiny.c - A simple, iterative HTTP/1.0 Web server that uses the 
  *     GET method to serve static and dynamic content.
+ * Protocol: HTTP/1.0 // TCP
+ *           HTTP: For transferring data between client and server
+ *           TCP: For establishing a reliable connection between client and server
+ * 
+ * HOW TO USE: ./tiny <port>
+ * HOW TO TEST: echoclient telnet curl wget browser
  *
  * Updated 11/2019 droh 
  *   - Fixed sprintf() aliasing issue in serve_static(), and clienterror().
