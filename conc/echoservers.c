@@ -1,7 +1,9 @@
 /* 
  * echoservers.c - A concurrent echo server based on select
+ * Protocol: TCP
  * HOW TO USE: ./echoservers <port-number>
- * HOW TO TEST: telnet localhost <port-number>
+ * HOW TO TEST: telnet <host> <port-number>
+ *              ./echoclient <host> <port-number>
  */
 /* $begin echoserversmain */
 #include "csapp.h"

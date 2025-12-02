@@ -1,3 +1,7 @@
+/*
+ * hostinfo.c - A program that prints out the IP addresses for a given hostname
+ * Protocol: TCP
+ */
 /* $begin hostinfo */
 #include "csapp.h"
 

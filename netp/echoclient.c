@@ -1,5 +1,6 @@
 /*
  * echoclient.c - An echo client
+ * Protocol: TCP
  * HOW TO USE: ./echoclient <IP> <port>
  */
 /* $begin echoclientmain */
