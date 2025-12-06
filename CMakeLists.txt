@@ -60,19 +60,19 @@ if(BUILD_NETP_EXAMPLES)
 	# add_executable(echoserveri netp/echoserveri.c)
 	# target_link_libraries(echoserveri PRIVATE csapp)
 
-	add_executable(tiny netp/tiny/tiny.c)
-	target_link_libraries(tiny PRIVATE csapp)
+	# add_executable(tiny netp/tiny/tiny.c)
+	# target_link_libraries(tiny PRIVATE csapp)
 
-	add_executable(cgi_adder netp/tiny/cgi-bin/adder.c)
-	target_include_directories(cgi_adder PRIVATE ${CSAPP_INCLUDE_DIR})
-	set_target_properties(cgi_adder PROPERTIES
-		OUTPUT_NAME adder
-		RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/tiny-cgi
-	)
-	add_custom_command(TARGET cgi_adder POST_BUILD
-		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/netp/tiny/cgi-bin
-		COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:cgi_adder> ${CMAKE_SOURCE_DIR}/netp/tiny/cgi-bin/adder
-	)
+	# add_executable(cgi_adder netp/tiny/cgi-bin/adder.c)
+	# target_include_directories(cgi_adder PRIVATE ${CSAPP_INCLUDE_DIR})
+	# set_target_properties(cgi_adder PROPERTIES
+	# 	OUTPUT_NAME adder
+	# 	RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/tiny-cgi
+	# )
+	# add_custom_command(TARGET cgi_adder POST_BUILD
+	# 	COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/netp/tiny/cgi-bin
+	# 	COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:cgi_adder> ${CMAKE_SOURCE_DIR}/netp/tiny/cgi-bin/adder
+	# )
 
 	# add_executable(echoserverp ./conc/echoserverp.c)
 	# target_link_libraries(echoserverp PRIVATE csapp)
@@ -82,4 +82,7 @@ if(BUILD_NETP_EXAMPLES)
 
 	# add_executable(echoservers ./conc/echoservers.c)
 	# target_link_libraries(echoservers PRIVATE csapp)
+
+	add_executable(hello ./conc/hello.c)
+	target_link_libraries(hello PRIVATE csapp)
 endif()
