@@ -83,6 +83,9 @@ if(BUILD_NETP_EXAMPLES)
 	# add_executable(echoservers ./conc/echoservers.c)
 	# target_link_libraries(echoservers PRIVATE csapp)
 
-	add_executable(hello ./conc/hello.c)
-	target_link_libraries(hello PRIVATE csapp)
+	# add_executable(hello ./conc/hello.c)
+	# target_link_libraries(hello PRIVATE csapp)
+
+	add_executable(shellex ./ecf/shellex.c)
+	target_link_libraries(shellex PRIVATE csapp)
 endif()
